@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 10px);
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        #predictionResult {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>House Price Prediction</h1>
+        <form id="predictionForm">
+            <label for="HouseAge">House Age:</label>
+            <input type="text" id="HouseAge" name="HouseAge" required>
+
+            <label for="AveRooms">Average Rooms:</label>
+            <input type="text" id="AveRooms" name="AveRooms" required>
+
+            <label for="AveBedrms">Average Bedrooms:</label>
+            <input type="text" id="AveBedrms" name="AveBedrms" required>
+
+            <label for="Population">Population:</label>
+            <input type="text" id="Population" name="Population" required>
+
+            <label for="AveOccup">Average Occupation:</label>
+            <input type="text" id="AveOccup" name="AveOccup" required>
+
+            <label for="Latitude">Latitude:</label>
+            <input type="text" id="Latitude" name="Latitude" required>
+
+            <label for="Longitude">Longitude:</label>
+            <input type="text" id="Longitude" name="Longitude" required>
+
+            <button type="submit">Predict Price</button>
+        </form>
+
+        <div id="predictionResult"></div>
+    </div>
+
+    <script>
+        document.getElementById("predictionForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("predictionResult").innerText = "Predicted Price: $" + data;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
